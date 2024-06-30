@@ -9,6 +9,7 @@ import LoggerModal from './components/LoggerModal/LoggerModal.tsx'
 import { deleteBoard } from './store/slices/boardSlice.ts'
 import { v4 } from 'uuid'
 import { addLog } from './store/slices/loggerSlice.ts'
+import {DragDropContext} from "react-beautiful-dnd"
 
 function App() {
   const dispatch = useTypedDipatch();
@@ -44,7 +45,10 @@ function App() {
       alert('최소 게시판 개수는 한 개입니다.')
     }
   }
-
+  const handleDragEnd = (result: any) => {
+    console.log(result);
+    
+  }
   return (
     <div className={appContainer}> 
         {isLoggerOpen ? <LoggerModal setIsLoggerOpen={setIsLoggerOpen}/> : null}
@@ -54,7 +58,9 @@ function App() {
         setActiveBoardId={setActiveBoardId}/>
 
            <div className={board}>
+          <DragDropContext onDragEnd={handleDragEnd}>
             <ListsContainer lists={lists} boardId={getActiveBoard.boardId}/>
+          </DragDropContext>
            </div>
       <div className={buttons}>
         <button className={deleteBoardButton} onClick={handleDeleteBoard}>
